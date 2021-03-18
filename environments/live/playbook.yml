@@ -1,0 +1,65 @@
+- become: yes
+  hosts: all
+  name: configure-server
+  tasks:
+#    - name: Update all packages
+#      apt:
+#        upgrade: dist
+#        update_cache: yes
+#        cache_valid_time: 3600
+
+    - shell: docker login -u tombenjaminmorris -p {{ docker_pwd }}
+      become: yes
+
+    - name: Copy docker-compose file to host
+      copy:
+        src: ./config_files/docker-compose.yaml
+        dest: /root/docker-compose.yaml
+        owner: root
+        group: root
+        mode: 0777
+
+    - name: Create Nginx directory
+      file:
+        path: /root/data/nginx
+        state: directory
+
+    - name: Copy Nginx config file
+      copy:
+        src: ./config_files/app.conf
+        dest: /root/data/nginx/app.conf
+        owner: root
+        group: root
+        mode: 0777
+      
+    - name: Copy Nginx init config file
+      copy:
+        src: ./config_files/app_init.conf
+        dest: /root/data/nginx/app_init.conf
+        owner: root
+        group: root
+        mode: 0777
+
+    - name: Copy ssl init script
+      copy:
+        src: ./config_files/init-letsencrypt.sh
+        dest: /root/init-letsencrypt.sh
+        owner: root
+        group: root
+        mode: 0777
+
+    - name: Copy deploy script
+      copy:
+        src: ./config_files/deploy.sh
+        dest: /root/deploy.sh
+        owner: root
+        group: root
+        mode: 0777
+
+    # - name: Waits for DNS to resolve
+    #   wait_for:
+    #     host: hapihour.io
+    #     delay: 120
+
+#    - shell: /root/init-letsencrypt.sh
+#      become: yes
