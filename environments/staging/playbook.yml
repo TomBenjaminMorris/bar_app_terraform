@@ -2,11 +2,11 @@
   hosts: all
   name: configure-server
   tasks:
-#    - name: Update all packages
-#      apt:
-#        upgrade: dist
-#        update_cache: yes
-#        cache_valid_time: 3600
+    - name: Update all packages
+      apt:
+        upgrade: dist
+        update_cache: yes
+        cache_valid_time: 3600
 
     - shell: docker login -u tombenjaminmorris -p {{ docker_pwd }}
       become: yes
@@ -55,11 +55,3 @@
         owner: root
         group: root
         mode: 0777
-
-    # - name: Waits for DNS to resolve
-    #   wait_for:
-    #     host: staging.hapihour.io
-    #     delay: 120
-
-#    - shell: /root/init-letsencrypt.sh
-#      become: yes

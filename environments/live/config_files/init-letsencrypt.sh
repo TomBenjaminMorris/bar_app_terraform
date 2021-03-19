@@ -15,7 +15,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
 fi
 
 
-domains=(hapihour.io admin.hapihour.io)
+domains=(hapihour.io www.hapihour.io admin.hapihour.io)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="" # Adding a valid address is strongly recommended
