@@ -32,10 +32,3 @@ resource "digitalocean_droplet" "web" {
     command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u root -i '${self.ipv4_address},' --private-key ${var.pvt_key} -e 'pub_key=${var.pub_key}' playbook.yml --extra-vars 'docker_pwd=${var.docker_pwd}'"
   }
 }
-
-output "droplet_ip_addresses" {
-  value = {
-    for droplet in digitalocean_droplet.web:
-    droplet.name => droplet.ipv4_address
-  }
-}
